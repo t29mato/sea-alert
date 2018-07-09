@@ -1,7 +1,7 @@
 function myFunction() {
   var response = UrlFetchApp.fetch("http://qiita.com");
 
-  var myRegexp = /<title>([\s\S]*?<\/title>/i);
+  var myRegexp = /<title>([\s\S]*?)<\/title>/i;
   var match = myRegexp.exec(response.getContentText());
   var title = match[1];
 
