@@ -6,9 +6,9 @@ function myFunction() {
   var strDate           = tmpDateStatus[1];
   var strStatus         = tmpDateStatus[3];
 
-  var regexpWaterTemp   = /<h4>水温<\/h4>([\s\S]*?)<dd>([\s\S]*?)<\dd>/i;
-  var tmpWatertemp      = regexpWaterTemp.exec(response.getContentText());
-  var strWaterTemp      = tmpWatertemp[2];
+  var regexpWaterTemp   = /<h4>水温<\/h4>([\s\S]*?)<dd>([\s\S]*?)<\/dd>/i;
+  var tmpWaterTemp      = regexpWaterTemp.exec(response.getContentText());
+  var strWaterTemp      = tmpWaterTemp[2];
 
   Logger.log(strDate);
   Logger.log(strStatus);
