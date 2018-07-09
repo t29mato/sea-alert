@@ -1,10 +1,14 @@
 function myFunction() {
-  var response = UrlFetchApp.fetch("http://qiita.com");
+  var response = UrlFetchApp.fetch("http://iop-dc.com");
 
-  var myRegexp = /<title>([\s\S]*?)<\/title>/i;
-  var match = myRegexp.exec(response.getContentText());
-  var title = match[1];
+  var regexpDateStatus   = /<dt>([\s\S]*?)の海況<\/dt>([\s\S]*?)<dd>([\s\S]*?)<\/dd>/i;
 
-  title = title.replace(/(^\s+)|(\s+$)/g, "");
-  Logger.log(title);
+  var tmpDateStatus = regexpDateStatus.exec(response.getContentText());
+  var strDate = tmpDateStatus[1];
+  var strStatus = tmpDateStatus[3];
+
+  Logger.log(strDate);
+  Logger.log(strStatus);
+  
+
 }
