@@ -56,12 +56,16 @@ function Futo() {
   var recentRange = sheet.getRange(lastRow, 1, 1, statuses[0].length);
   var recentStatuses = recentRange.getValues();
   
-  // 直近のシートの値と比較
+  // 直近のシートの値と比較してログ出力に加えて、更新が確認できた場合はSlackへ投稿する。
   if (statuses[0][0] == recentStatuses[0][0] && statuses[0][1] == recentStatuses[0][1] && statuses[0][2] == recentStatuses[0][2] && statuses[0][3] == recentStatuses[0][3]) {
-    Logger.log("[" + point + "] 重複のためシートへの出力はしない");
+    var strLog = "[" + point + "] 重複のためシートへの出力はしない";
+    Logger.log(strLog);
     return;
   } else {
-    Logger.log("[" + point + "] 直近の情報と異なるので右記をシートに出力" + statuses);
+    var strLog = "[" + point + "] 直近の情報と異なるので右記をシートに出力" + statuses;
+    Logger.log(strLog);
+    var strMessage = "[" + point + "] 海況情報が更新されました。\n・日付：" + recentStatuses[0][0] + " → " + statuses[0][0] + "\n・脇の浜海況：" + recentStatuses[0][1] + " → " + statuses[0][1] + "\n・横浜海況：" + recentStatuses[0][2] + " → " + statuses[0][2] + "\n・水温：" + recentStatuses[0][3] + " → " + statuses[0][3] + "\n・ビーチ：" + recentStatuses[0][4] + " → " + statuses[0][4] + "\n・ボート：" + recentStatuses[0][5] + " → " + statuses[0][5];
+    postMessage(strMessage, 'https://hooks.slack.com/services/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')
   }
   
   // シートに出力

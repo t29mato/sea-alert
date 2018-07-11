@@ -1,8 +1,8 @@
-function postMessage(message, hookPoint) {
+function postMessage(point, message, hookPoint) {
   var payload = {
     "text": message,
     "icon_emoji": ':dolphin:',
-    "username": '海況速報'
+    "username": '海況速報 [' + point + ']'
   }
   var options = {
     "method" : "POST",
