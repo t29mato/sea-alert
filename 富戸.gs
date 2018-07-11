@@ -3,9 +3,9 @@ function Futo() {
   Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
   var dateScriptBegin    = new Date();    
   var spreadsheet        = SpreadsheetApp.openById("1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0");
-  var sheet              = spreadsheet.getSheetByName("Futo");
+  var point              = "富戸";
+  var sheet              = spreadsheet.getSheetByName(point);
   var response           = UrlFetchApp.fetch("http://www.izu-ito.jp/futo/info.html").getContentText("Shift_JIS");
-  var point              = "富戸";  
   
   // 日時取得
   var regexpDate         = /size="\+1">([\s\S]*?)<\/font>/i;
