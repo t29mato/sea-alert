@@ -1,16 +1,17 @@
 function Futo() {
   // 初期化
-  // Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
+  Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
   var dateScriptBegin    = new Date();    
   var spreadsheet        = SpreadsheetApp.openById("1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0");
   var sheet              = spreadsheet.getSheetByName("Futo");
   var response           = UrlFetchApp.fetch("http://www.izu-ito.jp/futo/info.html").getContentText("Shift_JIS");
+  var point              = "富戸";  
   
   // 日時取得
   var regexpDate         = /size="\+1">([\s\S]*?)<\/font>/i;
   var tmpDate      = regexpDate.exec(response);
   var strDate            = tmpDate[1];
-
+  
   // 海況取得 (脇の浜)
   var regexpStatusWakinohama         = /\d{1,2}:\d{1,2}\s脇の浜([\s\S]*?)<font color="blue">([\s\S]*?)<\/font>/i;
   var tmpStatusWakinohama      = regexpStatusWakinohama.exec(response);
@@ -31,27 +32,38 @@ function Futo() {
   var tmpWaterClarity         = regexpWaterClarityBeach.exec(response);
   var strWaterClarityBeach    = tmpWaterClarity[3]; // ビーチ
   var strWaterClarityBoat     = tmpWaterClarity[6]; // ボート  
-
+  
   // 取得に要した時間計測
   var dateScriptEnd      = new Date();
   var strScriptTime      = ((dateScriptEnd - dateScriptBegin) / 1000 + "s");
   
   // 配列にまとめる
   var statuses = [
-    strDate,
-    strStatusWakinohama,
-    strStatusYokobama,
-    strWaterTemp,
-    strWaterClarityBeach,
-    strWaterClarityBoat,
-    dateScriptBegin,
-    strScriptTime
+    [      
+      strDate,
+      strStatusWakinohama,
+      strStatusYokobama,
+      strWaterTemp,
+      strWaterClarityBeach,
+      strWaterClarityBoat,
+      dateScriptBegin,
+      strScriptTime
+    ]
   ];
-
-  // シートに挿入
-  // todo: APIをループではなくてまとめて実施
+  
+  // 直近のシートの値を取得
   var lastRow = sheet.getLastRow();
-  for (var i = 0; i < statuses.length; i += 1) {
-    sheet.getRange(lastRow + 1, i + 1).setValue(statuses[i]);
+  var recentRange = sheet.getRange(lastRow, 1, 1, statuses[0].length);
+  var recentStatuses = recentRange.getValues();
+  
+  // 直近のシートの値と比較
+  if (statuses[0][0] == recentStatuses[0][0] && statuses[0][1] == recentStatuses[0][1] && statuses[0][2] == recentStatuses[0][2] && statuses[0][3] == recentStatuses[0][3]) {
+    Logger.log("[" + point + "] 重複のためシートへの出力はしない");
+    return;
+  } else {
+    Logger.log("[" + point + "] 直近の情報と異なるので右記をシートに出力" + statuses);
   }
+  
+  // シートに出力
+  sheet.getRange(lastRow + 1, 1, 1, statuses[0].length).setValues(statuses);
 }
