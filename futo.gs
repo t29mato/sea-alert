@@ -1,5 +1,6 @@
 function Futo() {
   // 初期化
+  // Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
   var dateScriptBegin    = new Date();    
   var spreadsheet        = SpreadsheetApp.openById("1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0");
   var sheet              = spreadsheet.getSheetByName("Futo");
