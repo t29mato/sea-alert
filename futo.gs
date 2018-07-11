@@ -28,18 +28,9 @@ function Futo() {
   
   // 透明度取得 (ビーチ&ボート)
   var regexpWaterClarityBeach = /（透明度）([\s\S]*?)ビーチ([\s\S]*?)<td nowrap>([\s\S]*?)<\/td><\/tr>([\s\S]*?)<\/td>([\s\S]*?)<td nowrap>([\s\S]*?)<\/td><\/tr>/i;
-  var tmpWaterClarityBeach    = regexpWaterClarityBeach.exec(response);
-  Logger.log(tmpWaterClarityBeach[3]); // ビーチ
-  Logger.log(tmpWaterClarityBeach[6]); // ボート
-  var strWaterClarityBeach    = tmpWaterClarityBeach[2];
-
-  // 取得した値をログ出力
-  Logger.log(strDate);
-  Logger.log(strStatusWakinohama);
-  Logger.log(strStatusYokobama);
-  Logger.log(strWaterTemp);
-  Logger.log(strWaterClarityBeach);
-  
+  var tmpWaterClarity         = regexpWaterClarityBeach.exec(response);
+  var strWaterClarityBeach    = tmpWaterClarity[3]; // ビーチ
+  var strWaterClarityBoat     = tmpWaterClarity[6]; // ボート  
 
   // 取得に要した時間計測
   var dateScriptEnd      = new Date();
@@ -51,6 +42,8 @@ function Futo() {
     strStatusWakinohama,
     strStatusYokobama,
     strWaterTemp,
+    strWaterClarityBeach,
+    strWaterClarityBoat,
     dateScriptBegin,
     strScriptTime
   ];
