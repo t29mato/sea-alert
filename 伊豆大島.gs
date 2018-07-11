@@ -3,9 +3,10 @@ function Ohshima() {
   // Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
   var dateScriptBegin    = new Date();    
   var spreadsheet        = SpreadsheetApp.openById("1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0");
-  var point              = "伊豆大島";  
+  var point              = "伊豆大島";
+  var url                = "http://izuohshima-diving.com/divelog/";
   var sheet              = spreadsheet.getSheetByName(point);
-  var response           = UrlFetchApp.fetch("http://izuohshima-diving.com/divelog/").getContentText();
+  var response           = UrlFetchApp.fetch(url).getContentText();
   
   // 日時取得  
   var regexpDate         = /<h3>([\s\S]*?)<\/h3>/i;
@@ -56,7 +57,7 @@ function Ohshima() {
   } else {
     var strLog = "[" + point + "] 直近の情報と異なるので右記をシートに出力" + statuses;
     Logger.log(strLog);
-    var strMessage = "海況情報が更新されました。\n・日付：" + recentStatuses[0][0] + " → " + statuses[0][0] + "\n・ポイント：" + recentStatuses[0][1] + " → " + statuses[0][1] + "\n・水温：" + recentStatuses[0][2] + " → " + statuses[0][2] + "\n・透明度：" + recentStatuses[0][3] + " → " + statuses[0][3];
+    var strMessage = "海況情報が更新されました。\n・日付：" + recentStatuses[0][0] + " → " + statuses[0][0] + "\n・ポイント：" + recentStatuses[0][1] + " → " + statuses[0][1] + "\n・水温：" + recentStatuses[0][2] + " → " + statuses[0][2] + "\n・透明度：" + recentStatuses[0][3] + " → " + statuses[0][3] + "\n詳細はこちら：" + url;
     postMessage(point, strMessage, 'https://hooks.slack.com/services/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')
   }
   
