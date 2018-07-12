@@ -1,4 +1,5 @@
-function postMessage(point, message, hookPoint) {
+function postMessage(point, message) {
+  var hookPoint = PropertiesService.getScriptProperties().getProperty("SLACK_HOOKPOINT")  ;
   var payload = {
     "text": message,
     "icon_emoji": ':dolphin:',

@@ -1,8 +1,11 @@
 function IOP() {
-  // 初期化
-  Logger = BetterLog.useSpreadsheet('1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0'); 
+  // 初期化 (共通)
   var dateScriptBegin    = new Date();
-  var spreadsheet        = SpreadsheetApp.openById("1uMK9iRudcrsq5JP3qw2SKpmucWudry_FW0T3sbb1yi0");
+  var spreadsheetId      = PropertiesService.getScriptProperties().getProperty("SPREADSHEET_ID");
+  Logger = BetterLog.useSpreadsheet(spreadsheetId); 
+  var spreadsheet        = SpreadsheetApp.openById(spreadsheetId);
+
+  // 初期化 (個別)
   var point              = "伊豆海洋公園";
   var url                = "http://iop-dc.com";
   var sheet              = spreadsheet.getSheetByName(point);
@@ -54,7 +57,7 @@ function IOP() {
     var strLog = "[" + point + "] 直近の情報と異なるので右記をシートに出力" + statuses;
     Logger.log(strLog);
     var strMessage = "海況情報が更新されました。\n・日付：" + recentStatuses[0][0] + " → " + statuses[0][0] + "\n・サービス：" + recentStatuses[0][1] + " → " + statuses[0][1] + "\n・水温：" + recentStatuses[0][2] + " → " + statuses[0][2] + "\n・透明度：" + recentStatuses[0][3] + " → " + statuses[0][3] + "\n詳細はこちら：" + url;
-    postMessage(point, strMessage, 'https://hooks.slack.com/services/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')
+    postMessage(point, strMessage);
   }
 
   // シートに出力
