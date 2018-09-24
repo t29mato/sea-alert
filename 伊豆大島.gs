@@ -7,28 +7,27 @@ function Ohshima() {
   
   // 初期化 (個別)
   var point              = "伊豆大島";
-  var url                = "http://izuohshima-diving.com/divelog/";
+  var url                = "http://izuohshima-diving.com/divelog/wp-json/wp/v2/posts?per_page=1";
   var sheet              = spreadsheet.getSheetByName(point);
-  var response           = UrlFetchApp.fetch(url).getContentText();
+  var response           = UrlFetchApp.fetch(url).getContentText();  
+  var json               = JSON.parse(response)[0];
   
-  // 日時取得  
-  var regexpDate         = /<h3>([\s\S]*?)<\/h3>/i;
-  var tmpDate            = regexpDate.exec(response);
-  var strDate            = tmpDate[1];
+  // 日時取得
+  var strDate            = json["date"].slice(0, 10);
   
   // ポイント取得
   var regexpPoint        = /<p>ポイント：([\s\S]*?)水温/i;
-  var tmpPoint           = regexpPoint.exec(response);
+  var tmpPoint           = regexpPoint.exec(json["content"]["rendered"]);
   var strPoint           = tmpPoint[1];
   
   // 水温取得
   var regexpWaterTemp    = /水温：([\s\S]*?)透明度/i;
-  var tmpWaterTemp       = regexpWaterTemp.exec(response);
+  var tmpWaterTemp       = regexpWaterTemp.exec(json["content"]["rendered"]);
   var strWaterTemp       = tmpWaterTemp[1];
   
   // 透明度取得
   var regexpWaterClarity = /透明度：([\s\S]*?)<\/p>/i;
-  var tmpWaterClarity    = regexpWaterClarity.exec(response);
+  var tmpWaterClarity    = regexpWaterClarity.exec(json["content"]["rendered"]);
   var strWaterClarity    = tmpWaterClarity[1];
   
   // 取得に要した時間計測
