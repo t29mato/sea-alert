@@ -8,8 +8,16 @@ function Futo() {
   // 初期化 (個別)
   var point                       = "富戸";
   var url                         = "http://www.izu-ito.jp/futo/info.html";
+  var options = {
+    "If-Modified-Since": PropertiesService.getScriptProperties().getProperty("lastModifiedTimeFuto")
+  };
   var sheet                       = spreadsheet.getSheetByName(point);
-  var response                    = UrlFetchApp.fetch(url).getContentText("Shift_JIS");
+  var response                    = UrlFetchApp.fetch(url, options).getContentText("Shift_JIS");
+  var test = UrlFetchApp.fetch(url, options)
+  var responseCode              = test.getResponseCode();
+  
+  // todo: 304が返ってこない。もしかしてfetcuURLではrequest headerのパラメーターが対応していない?
+  Logger.log(responseCode)
   
   // 日時取得
   var regexpDate                  = /size="\+1">([\s\S]*?)<\/font>/i;
@@ -54,7 +62,7 @@ function Futo() {
       strScriptTime
     ]
   ];
-  
+
   // 直近のシートの値を取得
   var lastRow = sheet.getLastRow();
   var recentRange = sheet.getRange(lastRow, 1, 1, statuses[0].length);
@@ -74,4 +82,7 @@ function Futo() {
   
   // シートに出力
   sheet.getRange(lastRow + 1, 1, 1, statuses[0].length).setValues(statuses);
+
+  // スクリプトプロパティに出力
+  PropertiesService.getScriptProperties().setProperty("lastModifiedTimeFuto", formatDate(dateScriptBegin));    
 }

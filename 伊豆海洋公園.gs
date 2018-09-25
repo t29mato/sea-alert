@@ -61,5 +61,5 @@ function IOP() {
   }
 
   // シートに出力
-  sheet.getRange(lastRow + 1, 1, 1, statuses[0].length).setValues(statuses);
+  sheet.getRange(lastRow + 1, 1, 1, statuses[0].length).setValues(statuses);  
 }
